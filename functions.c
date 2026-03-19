@@ -27,23 +27,43 @@ void convert_binary(int n, int *v){
 
 }
 
-void FPA(int a, int q, int mod, int risultato){
+int FPA(int a, int q, int mod){
 
     int n_bit = (int)log2(q) + 1;
     int *binary = malloc(n_bit * sizeof(int));
-    int *parziali = malloc(n_bit * sizeof(int));
+    int old = 0;
+    int new = 0;
+    int i = 0;
+    int risultato = 1;
 
-    if(binary == NULL || parziali == NULL){
+    if(binary == NULL){
         printf("\nAllocamento fallito%d.\n");
         exit(1);
     }
 
-
-
-
     convert_binary(q, binary);
+    old = (a % mod);
+    if (binary[i] == 1){
+        risultato = (risultato * old) % mod;
+    }
 
-    return;
+    for(i=1;i<n_bit;i++){
+
+        new = power2(old,mod);
+        if (binary[i] == 1){
+            risultato = (risultato * new) % mod;
+        }
+
+        old = new;
+
+    }
+
+    
+    printf("risultato = %d",risultato);
+
+    free(binary);
+
+    return risultato;
 }
 
 int power2(int a, int mod){
