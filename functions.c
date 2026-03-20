@@ -1,6 +1,7 @@
 #include "functions.h"
 #include <math.h>
 #include <stdio.h>
+#include <time.h>
 
 void convert_binary(int n, int *v){
 
@@ -58,8 +59,6 @@ int FPA(int a, int q, int mod){
 
     }
 
-    
-    printf("risultato = %d",risultato);
 
     free(binary);
 
@@ -78,4 +77,109 @@ int power2(int a, int mod){
 
     return risultato;
 
+}
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+
+int MR_test_a(int n, int a){
+
+    int k = 0;
+    int q = n-1;
+
+    while(q % 2 == 0){
+        k++;
+        q = q / 2;
+    }
+
+    
+
+    if (n % 2 == 0 || (gcd(a,n)<n && gcd(a,n)>1))
+        return 0;
+
+    a = FPA(a,q,n);
+
+    if (a % n == 1)
+        return 1;
+
+    for(int i = 0; i<k; i++){
+
+        if (a % n == (n-1))
+            return 1;
+        
+        a = power2(a,n);
+    }
+
+    return 0;
+    
+
+}
+
+int MR_test(int n, int k){
+
+    srand(time(NULL) ^ clock());
+    int a;
+    int test = 1; //test = 0 -> n is composite
+                  //test = 1 -> n may be prime
+
+    for(int i=0; i<k; i++){
+   
+        a = 2 + rand() % (n - 3);
+        printf("a = %d\n", a);
+        test = MR_test_a(n,a);
+        if (test == 0){
+            printf("MR, witness = %d\n",a);
+            return 0;
+        }
+
+    }
+
+    return test;
+
+}
+
+
+void Fermat_Fact(int n, Num_Mul* v){
+
+}
+
+int phi_n(int n){
+
+    Num_Mul * v;
+    int size = log(n) + 1;
+    int phi = 1;
+
+    v = malloc(size * sizeof(Num_Mul));
+
+    if(v == NULL){
+        exit(1);
+    }
+
+    Fermat_Fact(n,v);
+
+
+    free(v);
+
+    return phi;
+}
+
+int is_Square(int N){
+
+    int t = sqrt(N);
+
+    for(int i=0; i<2; i++){
+
+        if(t*t == N)
+            return 1;
+        t = t + i;
+    }
+
+    return 0;
 }
