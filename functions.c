@@ -146,23 +146,27 @@ int MR_test(int n, int k){
 }
 
 
-void Fermat_Fact(int n, Num_Mul* v){
+void Fermat_Fact(int n, Num_Mul* v, int s, int i){
+
+
+    
 
 }
 
 int phi_n(int n){
 
-    Num_Mul * v;
+    Num_Mul *v;
     int size = log(n) + 1;
     int phi = 1;
+    int s = size * sizeof(Num_Mul);
 
-    v = malloc(size * sizeof(Num_Mul));
+    v = malloc(s);
 
     if(v == NULL){
         exit(1);
     }
 
-    Fermat_Fact(n,v);
+    Fermat_Fact(n,v,s,0);
 
 
     free(v);
@@ -176,10 +180,9 @@ int is_Square(int N){
 
     for(int i=0; i<2; i++){
 
-        if(t*t == N)
-            return 1;
-        t = t + i;
+        if((t+i)*(t+i) == N)
+            return t;
     }
 
-    return 0;
+    return -1;
 }
