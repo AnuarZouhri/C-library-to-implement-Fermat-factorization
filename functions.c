@@ -186,3 +186,17 @@ int is_Square(int N){
 
     return -1;
 }
+
+
+int find_element(int n, Num_Mul *v, int i){
+
+    for(int j=0; j<=i; j++){
+
+        if(v[j].prime == n){
+            return j;
+        }
+    }
+
+    return -1;
+
+}

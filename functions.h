@@ -17,7 +17,10 @@ int MR_test_a(int n, int a);
 int MR_test(int n, int k);
 int gcd(int a, int b);
 int is_Square(int N);
-void Fermat_Fact(int n, Num_Mul* v);
+void Fermat_Fact(int n, Num_Mul* v, int s, int i);
+int factorize(int n);
+int find_element(int n, Num_Mul* v, int i);
+
 int phi_n(int n);
 
 

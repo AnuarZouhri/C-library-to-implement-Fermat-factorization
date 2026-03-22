@@ -6,17 +6,14 @@
 #include <time.h>   // <-- aggiungi questo
 
 int main() {
-    clock_t start, end;
-    double tempo;
-    double prova;
-    int x = 49;
-    start = clock();
 
+    Num_Mul v[]={
+        {3,2},
+        {2,5},
+        {7,1}
+    };
 
-    end = clock();
-
-    tempo = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("\nTempo impiegato: %f secondi\n", tempo);
+    printf("trovato = %d",find_element(1,v,3));
 
     return 0;
 }
