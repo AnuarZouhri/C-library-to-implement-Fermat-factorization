@@ -147,9 +147,27 @@ int MR_test(int n, int k){
 
 
 void Fermat_Fact(int n, Num_Mul* v, int s, int i){
+    int p;
 
+    if(MR_test(n,20) == 1){
+        
+        p = find_element(n,v,i);
+        if(p != -1){
+            v[p].mult++;
+        } 
+        else{
+            v[i].prime = n;
+            v[i].mult = 1;
+            i++;
+        }
+        return;
+    }
 
-    
+    int a = factorize(n);
+    Fermat_Fact(a,v,s,i);
+    Fermat_Fact(n/a,v,s,i);
+    return;
+
 
 }
 
@@ -198,5 +216,29 @@ int find_element(int n, Num_Mul *v, int i){
     }
 
     return -1;
+
+}
+
+int factorize(int n){
+    int k = 0;
+    int b = 0;
+    int a;
+    int g;
+    while(1){
+        k++;
+        if(k!=2){
+            while(b <= sqrt(k*n)){
+                b++;
+                a = b*b + k*n;
+                a = is_Square(a);
+                if(a != -1){
+                    g = gcd(n,a+b);
+                    if(g != 1 && g != n)
+                        return g;
+                }
+
+            }
+        }
+    }
 
 }
