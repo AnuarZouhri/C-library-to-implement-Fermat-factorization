@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <time.h>
 
-void convert_binary(int n, int *v){
+void convert_binary(LLU n, int *v){
 
     int i = 0;
-    int remainder = 0;
+    LLU remainder = 0;
 
     while(n>=1){
 
@@ -15,27 +15,21 @@ void convert_binary(int n, int *v){
         v[i] = remainder;
         i++;
         n = n / 2; 
-        //printf("r= %d, n= %d, i= %d\n",remainder,n,i);
-
-    }
-
-    for(int j=i-1;j>=0;j--) {
-
-        //printf("%d\n",v[j]);
+        
     }
 
     return;
 
 }
 
-int FPA(int a, int q, int mod){
+LLU FPA(LLU a, int q, LLU mod){
 
     int n_bit = (int)log2(q) + 1;
     int *binary = malloc(n_bit * sizeof(int));
-    int old = 0;
-    int new = 0;
+    LLU old = 0;
+    LLU new = 0;
     int i = 0;
-    int risultato = 1;
+    LLU risultato = 1;
 
     if(binary == NULL){
         printf("\nAllocamento fallito%d.\n");
@@ -64,9 +58,9 @@ int FPA(int a, int q, int mod){
     return risultato;
 }
 
-int power2(int a, int mod){
+LLU power2(LLU a, LLU mod){
 
-    int risultato;
+    LLU risultato;
 
     if (a > mod){
         a = a % mod;
@@ -78,9 +72,9 @@ int power2(int a, int mod){
 
 }
 
-int gcd(int a, int b) {
+LLU gcd(LLU a, LLU b) {
     while (b != 0) {
-        int temp = b;
+        LLU temp = b;
         b = a % b;
         a = temp;
     }
@@ -89,10 +83,10 @@ int gcd(int a, int b) {
 
 // 0 -> composite.
 // 1 -> probabily prime.
-int MR_test_a(int n, int a){
+int MR_test_a(LLU n, LLU a){
 
     int k = 0;
-    int q = n-1;
+    LLU q = n-1;
 
     while(q % 2 == 0){
         k++;
@@ -120,10 +114,10 @@ int MR_test_a(int n, int a){
 
 }
 
-int MR_test(int n, int k){
+int MR_test(LLU n, int k){
 
     srand(time(NULL) ^ clock());
-    int a;
+    LLU a;
     int test = 1; //test = 0 -> n is composite
                   //test = 1 -> n may be prime
     
@@ -146,7 +140,7 @@ int MR_test(int n, int k){
 }
 
 
-void Fermat_Fact(int n, Num_Mul* v, int s, int * i){
+void Fermat_Fact(LLU n, Num_Mul* v, int s, int * i){
     int p;
  
     if(n == 1) return;
@@ -167,7 +161,7 @@ void Fermat_Fact(int n, Num_Mul* v, int s, int * i){
         return;
     }
 
-    int a = factorize(n);
+    LLU a = factorize(n);
     Fermat_Fact(a,v,s,i);
     Fermat_Fact(n/a,v,s,i);
     return;
@@ -175,11 +169,11 @@ void Fermat_Fact(int n, Num_Mul* v, int s, int * i){
 
 }
 
-int phi_n(int n){
+int phi_n(LLU n){
 
     Num_Mul *v;
     int size = log(n) + 1;
-    int phi = 1;
+    LLU phi = 1;
     int s = size * sizeof(Num_Mul);
 
     v = malloc(s);
@@ -196,9 +190,9 @@ int phi_n(int n){
     return phi;
 }
 
-int is_Square(int N){
+int is_Square(LLU N){
 
-    int t = sqrt(N);
+    LLU t = sqrt(N);
 
     for(int i=0; i<2; i++){
 
@@ -210,7 +204,7 @@ int is_Square(int N){
 }
 
 
-int find_element(int n, Num_Mul *v, int i){
+int find_element(LLU n, Num_Mul *v, int i){
 
     for(int j=0; j<=i; j++){
 
@@ -223,11 +217,11 @@ int find_element(int n, Num_Mul *v, int i){
 
 }
 
-int factorize(int n){
+LLU factorize(LLU n){
     int k = 0;
-    int b = 0;
-    int a = -1; //default value
-    int g = 1;  //default value
+    LLU b = 0;
+    LLU a = 0; //default value
+    LLU g = 1;  //default value
     while(1){
         k++;
         b = 0;
@@ -236,7 +230,7 @@ int factorize(int n){
                 b++;
                 a = b*b + k*n;
                 a = is_Square(a);
-                if(a != -1){
+                if(a != 0){
                     g = gcd(n,a+b);
                     
                     printf("n= %d, b= %d, k= %d, a= %d, g= %d\n",n,b,k,a,g);
