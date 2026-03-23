@@ -56,7 +56,6 @@ int FPA(int a, int q, int mod){
         }
 
         old = new;
-
     }
 
 
@@ -88,7 +87,8 @@ int gcd(int a, int b) {
     return a;
 }
 
-
+// 0 -> composite.
+// 1 -> probabily prime.
 int MR_test_a(int n, int a){
 
     int k = 0;
@@ -98,8 +98,6 @@ int MR_test_a(int n, int a){
         k++;
         q = q / 2;
     }
-
-    
 
     if (n % 2 == 0 || (gcd(a,n)<n && gcd(a,n)>1))
         return 0;
@@ -118,7 +116,7 @@ int MR_test_a(int n, int a){
     }
 
     return 0;
-    
+ 
 
 }
 
@@ -128,14 +126,16 @@ int MR_test(int n, int k){
     int a;
     int test = 1; //test = 0 -> n is composite
                   //test = 1 -> n may be prime
+    
+    if(n == 2 || n == 3) return 1;
 
     for(int i=0; i<k; i++){
    
         a = 2 + rand() % (n - 3);
-        printf("a = %d\n", a);
+        //printf("a = %d\n", a);
         test = MR_test_a(n,a);
         if (test == 0){
-            printf("MR, witness = %d\n",a);
+            //printf("MR, witness = %d\n",a);
             return 0;
         }
 
@@ -146,19 +146,23 @@ int MR_test(int n, int k){
 }
 
 
-void Fermat_Fact(int n, Num_Mul* v, int s, int i){
+void Fermat_Fact(int n, Num_Mul* v, int s, int * i){
     int p;
+ 
+    if(n == 1) return;
 
-    if(MR_test(n,20) == 1){
+    int mr_test = MR_test(n,20);
+     
+    if(mr_test == 1){
         
-        p = find_element(n,v,i);
+        p = find_element(n,v,*i);
         if(p != -1){
             v[p].mult++;
         } 
         else{
-            v[i].prime = n;
-            v[i].mult = 1;
-            i++;
+            v[*i].prime = n;
+            v[*i].mult = 1;
+            (*i)++;
         }
         return;
     }
@@ -222,10 +226,11 @@ int find_element(int n, Num_Mul *v, int i){
 int factorize(int n){
     int k = 0;
     int b = 0;
-    int a;
-    int g;
+    int a = -1; //default value
+    int g = 1;  //default value
     while(1){
         k++;
+        b = 0;
         if(k!=2){
             while(b <= sqrt(k*n)){
                 b++;
@@ -233,6 +238,8 @@ int factorize(int n){
                 a = is_Square(a);
                 if(a != -1){
                     g = gcd(n,a+b);
+                    
+                    printf("n= %d, b= %d, k= %d, a= %d, g= %d\n",n,b,k,a,g);
                     if(g != 1 && g != n)
                         return g;
                 }
