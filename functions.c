@@ -233,7 +233,7 @@ LLU factorize(LLU n){
                 if(a != 0){
                     g = gcd(n,a+b);
                     
-                    printf("n= %d, b= %d, k= %d, a= %d, g= %d\n",n,b,k,a,g);
+                    printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);
                     if(g != 1 && g != n)
                         return g;
                 }
