@@ -22,7 +22,8 @@ int is_Square(LLU N);
 void Fermat_Fact(LLU n, Num_Mul* v, int s, int * i);
 LLU factorize(LLU n);
 int find_element(LLU n, Num_Mul* v, int i);
-int phi_n(Num_Mul *v);
+int phi(Num_Mul *v);
+int phi_n(LLU n);
 
 
 #endif

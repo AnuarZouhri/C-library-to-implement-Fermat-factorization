@@ -169,23 +169,15 @@ void Fermat_Fact(LLU n, Num_Mul* v, int s, int * i){
 
 }
 
-int phi_n(LLU n){
+int phi(ççU){
 
-    Num_Mul *v;
-    int size = log(n) + 1;
-    LLU phi = 1;
-    int s = size * sizeof(Num_Mul);
+    int phi;
 
-    v = malloc(s);
+    return phi;
+}
 
-    if(v == NULL){
-        exit(1);
-    }
+int phi(Num_Mul *v){
 
-    Fermat_Fact(n,v,s,0);
-
-
-    free(v);
 
     return phi;
 }
