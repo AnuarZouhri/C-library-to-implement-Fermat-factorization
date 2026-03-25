@@ -3,28 +3,34 @@
 #include <stdlib.h>
 #include <math.h>
 #include "test.h"
-#include <time.h>   // <-- aggiungi questo
+#include <time.h>
 
 int main() {
-//154282
-//23537031073 = 104729 × 224737
-//15*33*49*14*16*19
+    //2580621751
     int s;
     int i = 0;
-    LLU n = 9699690*29;
+    LLU n = 2580621351;
     Num_Mul * v;
-
     s = sizeof(Num_Mul)*log(n);
     v = malloc(s);
 
-    Fermat_Fact(n, v, s, &i);
+    clock_t start = clock();  // <-- inizio
 
+    factorize(n, v, s, &i);
+    LLU result = phi(v, i);
 
-    for(int j=0; j<i;j++){
-        printf("mult= %d,prime= %d\n",v[j].mult,v[j].prime);
+    clock_t end = clock();    // <-- fine
+
+    double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+
+    for(int j=0; j<i; j++){
+        printf("mult= %d, prime= %llu\n", v[j].mult, v[j].prime);
     }
 
+    printf("phi(%llu) = %llu\n", n, result);
+    printf("Tempo: %.6f secondi\n", elapsed);  // <-- stampa
+    printf("%llu",130000000000);
     free(v);
-    
+
     return 0;
 }

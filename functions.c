@@ -32,7 +32,7 @@ LLU FPA(LLU a, int q, LLU mod){
     LLU risultato = 1;
 
     if(binary == NULL){
-        printf("\nAllocamento fallito%d.\n");
+        printf("\nAllocamento fallito, calcolo FPA di %d.\n", a);
         exit(1);
     }
 
@@ -140,7 +140,7 @@ int MR_test(LLU n, int k){
 }
 
 
-void Fermat_Fact(LLU n, Num_Mul* v, int s, int * i){
+void factorize(LLU n, Num_Mul* v, int s, int * i){
     int p;
  
     if(n == 1) return;
@@ -161,23 +161,32 @@ void Fermat_Fact(LLU n, Num_Mul* v, int s, int * i){
         return;
     }
 
-    LLU a = factorize(n);
-    Fermat_Fact(a,v,s,i);
-    Fermat_Fact(n/a,v,s,i);
+    LLU a = fermat_factorization(n);
+    factorize(a,v,s,i);
+    factorize(n/a,v,s,i);
     return;
 
 
 }
 
-int phi(ççU){
+LLU phi_n(LLU n){
 
-    int phi;
+    int phi = 0;
+
+    for(int i=1; i<n; i++){
+        if(gcd(i,n)==1) phi++;
+    }
 
     return phi;
 }
 
-int phi(Num_Mul *v){
+LLU phi(Num_Mul *v, int size){
+    
+    LLU phi = 1;
 
+    for(int i = 0; i<size; i++){
+        phi = phi * (v[i].prime - 1)*pow(v[i].prime,v[i].mult-1);
+    }
 
     return phi;
 }
@@ -209,7 +218,7 @@ int find_element(LLU n, Num_Mul *v, int i){
 
 }
 
-LLU factorize(LLU n){
+LLU fermat_factorization(LLU n){
     int k = 0;
     LLU b = 0;
     LLU a = 0; //default value
@@ -222,7 +231,7 @@ LLU factorize(LLU n){
                 b++;
                 a = b*b + k*n;
                 a = is_Square(a);
-                if(a != 0){
+                if(a != -1){
                     g = gcd(n,a+b);
                     
                     printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);

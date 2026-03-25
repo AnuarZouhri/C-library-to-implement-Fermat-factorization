@@ -4,12 +4,12 @@
 #define FUN
 
 
+typedef long long unsigned int LLU;
+
 typedef struct {
-    unsigned int prime;
+    LLU prime;
     int mult;
 } Num_Mul;
-
-typedef long long unsigned int LLU;
 
 
 void convert_binary(LLU n, int * v);
@@ -22,8 +22,8 @@ int is_Square(LLU N);
 void factorize(LLU n, Num_Mul* v, int s, int * i);
 LLU fermat_factorization(LLU n);
 int find_element(LLU n, Num_Mul* v, int i);
-int phi(Num_Mul *v);
-int phi_n(LLU n);
+LLU phi(Num_Mul *v, int size);
+LLU phi_n(LLU n);
 
 
 #endif
