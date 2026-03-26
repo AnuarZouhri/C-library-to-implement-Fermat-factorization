@@ -22,7 +22,7 @@ void convert_binary(LLU n, int *v){
 
 }
 
-LLU FPA(LLU a, int q, LLU mod){
+LLU FPA(LLU a, LLU q, LLU mod){
 
     int n_bit = (int)log2(q) + 1;
     int *binary = malloc(n_bit * sizeof(int));
@@ -33,6 +33,8 @@ LLU FPA(LLU a, int q, LLU mod){
 
     if(binary == NULL){
         printf("\nAllocamento fallito, calcolo FPA di %d.\n", a);
+        
+        printf("\nn_bit= , q= \n", n_bit, q);
         exit(1);
     }
 
@@ -191,7 +193,7 @@ LLU phi(Num_Mul *v, int size){
     return phi;
 }
 
-int is_Square(LLU N){
+LLU is_Square(LLU N){
 
     LLU t = sqrt(N);
 
@@ -201,7 +203,7 @@ int is_Square(LLU N){
             return t;
     }
 
-    return -1;
+    return 0;
 }
 
 
@@ -223,6 +225,7 @@ LLU fermat_factorization(LLU n){
     LLU b = 0;
     LLU a = 0; //default value
     LLU g = 1;  //default value
+    if(n % 2 == 0) return 2;
     while(1){
         k++;
         b = 0;
@@ -231,7 +234,7 @@ LLU fermat_factorization(LLU n){
                 b++;
                 a = b*b + k*n;
                 a = is_Square(a);
-                if(a != -1){
+                if(a != 0){
                     g = gcd(n,a+b);
                     
                     printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);

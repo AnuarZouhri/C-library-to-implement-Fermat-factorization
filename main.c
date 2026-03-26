@@ -9,7 +9,7 @@ int main() {
     //2580621751
     int s;
     int i = 0;
-    LLU n = 2580621351;
+    LLU n = 91164744221;
     Num_Mul * v;
     s = sizeof(Num_Mul)*log(n);
     v = malloc(s);
