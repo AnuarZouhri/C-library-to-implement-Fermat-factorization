@@ -3,6 +3,24 @@
 #include <stdio.h>
 #include <time.h>
 
+
+
+/**
+ * @brief Converts a number to its binary representation.
+ *
+ * Stores the bits of `n` into the array `v` in LSB-first order
+ * (least significant bit at index 0).
+ *
+ * @param n   The number to convert (unsigned long long).
+ * @param v   Output array where bits are stored. Must be pre-allocated
+ *            with at least floor(log2(n)) + 1 elements.
+ *
+ * @note  The array is filled LSB-first, so v[0] is the least significant bit.
+ *        Example: n=6 (binary 110) → v = {0, 1, 1}
+ *
+ * @warning No bounds checking is performed on `v`.
+ *          Ensure the array is large enough before calling.
+ */
 void convert_binary(LLU n, int *v){
 
     int i = 0;
@@ -21,6 +39,23 @@ void convert_binary(LLU n, int *v){
     return;
 
 }
+
+/**
+ * @brief Computes a^q mod (mod) using Fast Power Algorithm (square-and-multiply).
+ *
+ * Uses the binary representation of the exponent `q` to compute
+ * modular exponentiation efficiently in O(log q) multiplications.
+ *
+ * @param a    The base.
+ * @param q    The exponent.
+ * @param mod  The modulus.
+ * @return     Result of a^q mod (mod).
+ *
+ * @note  Internally calls convert_binary() and power2().
+ *        Exits the program if memory allocation fails.
+ *
+ * @example FPA(2, 10, 1000) → 1024 % 1000 = 24
+ */
 
 LLU FPA(LLU a, LLU q, LLU mod){
 
@@ -54,11 +89,20 @@ LLU FPA(LLU a, LLU q, LLU mod){
         old = new;
     }
 
-
     free(binary);
 
     return risultato;
 }
+
+/**
+ * @brief Compute the power of a number given the modulo
+ *
+ *
+ * @param a    The base.
+ * @param mod  The modulus.
+ * @return     Result of a^a mod (mod).
+ *
+ */
 
 LLU power2(LLU a, LLU mod){
 
@@ -74,17 +118,46 @@ LLU power2(LLU a, LLU mod){
 
 }
 
+/**
+ * @brief Compute the gcd of two numbers
+ *
+ *  O(log a) operations
+ * 
+ *
+ * @param a    The first number (llu).
+ * @param b    The second number (llu).
+ * @return     gcd(a,b).
+ *
+ */
 LLU gcd(LLU a, LLU b) {
+
+    LLU temp;
+
     while (b != 0) {
-        LLU temp = b;
+        temp = b;
         b = a % b;
         a = temp;
     }
     return a;
 }
 
-// 0 -> composite.
-// 1 -> probabily prime.
+/**
+ * @brief Performs a single Miller-Rabin primality test with witness `a`.
+ *
+ * Writes n-1 as 2^k * q with q odd, then checks if `a` is a witness
+ * of compositeness for `n`.
+ *
+ * @param n  The number to test for primality (must be odd and > 3).
+ * @param a  The witness candidate (1 < a < n-1).
+ * @return   0 if `n` is definitely composite.
+ *           1 if `n` is probably prime for this witness.
+ *
+ * @note  A return value of 1 does NOT guarantee primality.
+ *        Call MR_test() with multiple witnesses for higher confidence.
+ *
+ * @example MR_test_a(221, 174) → 0  (221 = 13 × 17, composite)
+ * @example MR_test_a(7, 3)     → 1  (7 is prime)
+ */
 int MR_test_a(LLU n, LLU a){
 
     int k = 0;
@@ -113,9 +186,30 @@ int MR_test_a(LLU n, LLU a){
 
     return 0;
  
-
 }
 
+/**
+ * @brief Performs the Miller-Rabin primality test with `k` random witnesses.
+ *
+ * Repeatedly calls MR_test_a() with random witnesses to determine
+ * whether `n` is prime. The more witnesses used, the lower the
+ * probability of a false positive (at most 4^-k per round).
+ *
+ * @param n  The number to test for primality.
+ * @param k  Number of random witnesses to test (recommended: k >= 20).
+ * @return   0 if `n` is definitely composite.
+ *           1 if `n` is probably prime.
+ *
+ * @note  Special cases: returns 1 immediately for n=2 and n=3.
+ *        The seed is randomized via srand(time(NULL) ^ clock()).
+ *
+ * @warning rand() % (n-3) may have bias for large `n` since
+ *          `n` can exceed RAND_MAX. For cryptographic use,
+ *          replace rand() with a CSPRNG.
+ *
+ * @example MR_test(104729, 20) → 1  (104729 is prime)
+ * @example MR_test(104728, 20) → 0  (104728 is composite)
+ */
 int MR_test(LLU n, int k){
 
     srand(time(NULL) ^ clock());
@@ -127,7 +221,7 @@ int MR_test(LLU n, int k){
 
     for(int i=0; i<k; i++){
    
-        a = 2 + rand() % (n - 3);
+        LLU a = 2 + ((LLU)rand() << 32 | (LLU)rand()) % (n - 3); //create a random 64 bit number
         //printf("a = %d\n", a);
         test = MR_test_a(n,a);
         if (test == 0){
