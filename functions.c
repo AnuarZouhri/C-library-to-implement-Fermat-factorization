@@ -318,7 +318,7 @@ LLU fermat_factorization(LLU n){
     LLU b = 0;
     LLU a = 0; //default value
     LLU g = 1;  //default value
-    if(n % 2 == 0) return 2;
+    if((n & 1) == 0) return 2; //check the last bit. If 0, then the number is even.
     while(1){
         k++;
         b = 0;
@@ -326,6 +326,7 @@ LLU fermat_factorization(LLU n){
             while(b <= sqrt(k*n)){
                 b++;
                 a = b*b + k*n;
+                //printf("\na = %llu, overflow = %d\n", a, a == ULLONG_MAX);
                 a = is_Square(a);
                 if(a != 0){
                     g = gcd(n,a+b);
