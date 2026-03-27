@@ -2,6 +2,7 @@
 #include "functions.h"
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 
 void test_convert_binary(int n) {
     int n_bit = (int)log2(n) + 1;
@@ -38,6 +39,40 @@ void test_power2(int a, int mod, int expected) {
         printf("TEST power2(%d, %d): FAILED ✗ (atteso %d, ottenuto %d)\n", a, mod, expected, risultato);
 }
 
+
+void test_factorization(){
+//interesting number: 123456785
+    int s;
+    int i = 0;
+    Num_Mul * v;
+    clock_t start = clock();  // <-- inizio
+    for(LLU  n=123456785; n<123456789; n++){
+
+        s = sizeof(Num_Mul)*log(n);
+        v = malloc(s);
+
+
+        factorize(n, v, s, &i);
+        LLU result = phi(v, i);
+
+ 
+        printf("---------Number = %d--------\n",n);
+        for(int j=0; j<i; j++){
+            printf("mult = %d, prime = %llu\n", v[j].mult, v[j].prime);
+        }
+        printf("-------------------------------\n");
+        i = 0;
+        free(v);
+    }
+    clock_t end = clock();    // <-- fine
+
+    double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+    
+    printf("Tempo: %.6f secondi\n", elapsed);
+
+
+}
+
 void test_all(){
 
 
@@ -55,3 +90,4 @@ void test_all(){
     test_power2(1234, 5678, 1052);
 
 }
+

@@ -262,7 +262,6 @@ void factorize(LLU n, Num_Mul* v, int s, int * i){
     factorize(n/a,v,s,i);
     return;
 
-
 }
 
 LLU phi_n(LLU n){
@@ -331,7 +330,7 @@ LLU fermat_factorization(LLU n){
                 if(a != 0){
                     g = gcd(n,a+b);
                     
-                    printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);
+                    //printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);
                     if(g != 1 && g != n)
                         return g;
                 }
