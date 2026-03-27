@@ -341,3 +341,12 @@ LLU fermat_factorization(LLU n){
     }
 
 }
+
+
+int resize(Num_Mul *v, int i, int size){
+
+    int new_size = i;
+
+    return new_size;
+}
+
