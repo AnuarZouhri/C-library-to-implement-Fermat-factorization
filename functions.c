@@ -250,6 +250,8 @@ void factorize(LLU n, Num_Mul* v, int s, int * i){
             v[p].mult++;
         } 
         else{
+
+            if(*i == s) resize(v, (*i)*0.2, s);
             v[*i].prime = n;
             v[*i].mult = 1;
             (*i)++;
@@ -346,6 +348,11 @@ LLU fermat_factorization(LLU n){
 int resize(Num_Mul *v, int i, int size){
 
     int new_size = i;
+    
+    if(new_size == 0){
+        printf("Error! Size cannot be zero.\n");
+        exit(1);
+    }
 
     return new_size;
 }
