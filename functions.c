@@ -349,6 +349,10 @@ int resize(Num_Mul *v, int i, int size){
 
     int new_size = i;
     
+    realloc(v, new_size);
+
+
+
     if(new_size == 0){
         printf("Error! Size cannot be zero.\n");
         exit(1);
