@@ -21,9 +21,13 @@ LLU gcd(LLU a, LLU b);
 LLU is_Square(LLU N);
 void factorize(LLU n, Num_Mul* v, int s, int * i);
 LLU fermat_factorization(LLU n);
+LLU trial_division(LLU n);
 int find_element(LLU n, Num_Mul* v, int i);
 LLU phi(Num_Mul *v, int size);
 LLU phi_n(LLU n);
+
+
+int resize(Num_Mul *v, int i, int size);
 
 
 #endif

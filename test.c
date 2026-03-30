@@ -46,7 +46,7 @@ void test_factorization(){
     int i = 0;
     Num_Mul * v;
     clock_t start = clock();  // <-- inizio
-    for(LLU  n=123456787; n<123456789; n++){
+    for(LLU  n=9992000639; n<9992000640; n++){
 
         s = sizeof(Num_Mul)*log(n);
         v = malloc(s);
@@ -56,10 +56,11 @@ void test_factorization(){
         LLU result = phi(v, i);
 
  
-        printf("---------Number = %d--------\n",n);
+        printf("---------Number = %llu--------\n",n);
         for(int j=0; j<i; j++){
             printf("mult = %d, prime = %llu\n", v[j].mult, v[j].prime);
         }
+        printf("phi(%llu) = %llu\n",n,phi(v,i));
         printf("-------------------------------\n");
         i = 0;
         free(v);

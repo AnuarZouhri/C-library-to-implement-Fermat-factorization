@@ -7,7 +7,6 @@
 
 int main() {
    
-
     test_factorization();
 
     return 0;

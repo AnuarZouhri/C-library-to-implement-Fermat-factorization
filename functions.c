@@ -167,11 +167,13 @@ int MR_test_a(LLU n, LLU a){
         k++;
         q = q / 2;
     }
+    //printf("k= %d\n",k);
 
     if (n % 2 == 0 || (gcd(a,n)<n && gcd(a,n)>1))
         return 0;
 
     a = FPA(a,q,n);
+    //printf("a ^ (%llu) mod %llu = %llu\n",q,n,a);
 
     if (a % n == 1)
         return 1;
@@ -180,8 +182,9 @@ int MR_test_a(LLU n, LLU a){
 
         if (a % n == (n-1))
             return 1;
-        
         a = power2(a,n);
+        
+        //printf("a_(%d) = %llu\n",i,a%n);
     }
 
     return 0;
@@ -213,7 +216,6 @@ int MR_test_a(LLU n, LLU a){
 int MR_test(LLU n, int k){
 
     srand(time(NULL) ^ clock());
-    LLU a;
     int test = 1; //test = 0 -> n is composite
                   //test = 1 -> n may be prime
     
@@ -221,11 +223,11 @@ int MR_test(LLU n, int k){
 
     for(int i=0; i<k; i++){
    
-        LLU a = 2 + ((LLU)rand() << 32 | (LLU)rand()) % (n - 3); //create a random 64 bit number
-        //printf("a = %d\n", a);
-        test = MR_test_a(n,a);
+        LLU witness = 2 + ((LLU)rand() << 32 | (LLU)rand()) % (n - 3); //create a random 64 bit number
+        //printf("witness = %llu\n", witness);
+        test = MR_test_a(n, witness);
         if (test == 0){
-            //printf("MR, witness = %d\n",a);
+            //printf("MR, witness = %llu\n", witness);
             return 0;
         }
 
@@ -302,6 +304,7 @@ LLU is_Square(LLU N){
 }
 
 
+
 int find_element(LLU n, Num_Mul *v, int i){
 
     for(int j=0; j<=i; j++){
@@ -333,7 +336,7 @@ LLU fermat_factorization(LLU n){
                 if(a != 0){
                     g = gcd(n,a+b);
                     
-                    //printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);
+                    printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);
                     if(g != 1 && g != n)
                         return g;
                 }
