@@ -364,3 +364,13 @@ int resize(Num_Mul *v, int i, int size){
     return new_size;
 }
 
+LLU trial_division(LLU n){
+
+    LLU bound = sqrt(n);
+    for(int i = 3; i < bound; i++){
+
+
+        if(n % i == 0)
+            return i;
+    }
+}
