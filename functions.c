@@ -348,20 +348,24 @@ LLU fermat_factorization(LLU n){
 }
 
 
-int resize(Num_Mul *v, int i, int size){
+int resize(Num_Mul **v, int i, int size) {
 
-    int new_size = i;
-    
-    realloc(v, new_size);
-
-
-
-    if(new_size == 0){
+    if (i == 0) {
         printf("Error! Size cannot be zero.\n");
         exit(1);
     }
 
-    return new_size;
+    Num_Mul *temp = realloc(*v, i * sizeof(Num_Mul));
+
+    if (temp == NULL) {
+        printf("Error! Realloc failed.\n");
+        free(*v);
+        exit(1);
+    }
+
+    *v = temp;
+
+    return i;
 }
 
 LLU trial_division(LLU n){
