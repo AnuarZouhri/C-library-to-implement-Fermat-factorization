@@ -40,38 +40,64 @@ void test_power2(int a, int mod, int expected) {
 }
 
 
-void test_factorization(){
-//interesting number: 123456785
-    int s;
+void test_factorization() {
+    //1000000016000000063
+    LLU n = 1000000016000000063;
+    int s = (int)(log2(n) + 1);
     int i = 0;
-    Num_Mul * v;
-    clock_t start = clock();  // <-- inizio
-    for(LLU  n=24691357; n<24691358; n++){
-
-        s = sizeof(Num_Mul)*log(n);
-        v = malloc(s);
-
-
-        factorize(n, v, s, &i);
-        LLU result = phi(v, i);
-
- 
-        printf("---------Number = %llu--------\n",n);
-        for(int j=0; j<i; j++){
-            printf("mult = %d, prime = %llu\n", v[j].mult, v[j].prime);
-        }
-        printf("phi(%llu) = %llu\n",n,phi(v,i));
-        printf("-------------------------------\n");
-        i = 0;
-        free(v);
-    }
-    clock_t end = clock();    // <-- fine
-
-    double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+    Num_Mul *v = malloc(s * sizeof(Num_Mul));
+    clock_t start, end;
+    double elapsed;
     
-    printf("Tempo: %.6f secondi\n", elapsed);
+    printf("========== Testing n = %llu ==========\n\n", n);
 
+    // --- factorize + phi ---
+    start = clock();
+    factorize(n, v, s, &i);
+    LLU result_phi = phi(v, i);
+    end = clock();
+    elapsed = (double)(end - start) / CLOCKS_PER_SEC;
 
+    printf("[factorize + phi]\n");
+    printf("Factors: ");
+    for (int j = 0; j < i; j++)
+        printf("%llu^%d ", v[j].prime, v[j].mult);
+    printf("\nphi(%llu) = %llu\n", n, result_phi);
+    printf("Time: %.6f seconds\n\n", elapsed);
+    
+    // --- phi_n only ---
+    start = clock();
+    LLU result_phi_n = phi_n(n);
+    end = clock();
+    elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+
+    printf("[phi_n only]\n");
+    printf("phi(%llu) = %llu\n", n, result_phi_n);
+    printf("Time: %.6f seconds\n\n", elapsed);
+
+    // --- trial_division (full factorization) ---
+    start = clock();
+    LLU temp = n;
+    printf("[trial_division]\n");
+    printf("Factors: ");
+    while (temp > 1) {
+        LLU factor = trial_division(temp);
+        int exp = 0;
+        while (temp % factor == 0) {
+            temp /= factor;
+            exp++;
+        }
+        printf("%llu^%d ", factor, exp);
+    }
+    end = clock();
+    elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("\nTime: %.6f seconds\n\n", elapsed);
+    /*
+    // --- sanity check ---
+    printf("phi results match: %s\n", result_phi == result_phi_n ? "YES" : "NO");
+    printf("======================================\n");
+    */
+    free(v);
 }
 
 void test_all(){
