@@ -46,7 +46,7 @@ void test_factorization(){
     int i = 0;
     Num_Mul * v;
     clock_t start = clock();  // <-- inizio
-    for(LLU  n=9992000639; n<9992000640; n++){
+    for(LLU  n=24691357; n<24691358; n++){
 
         s = sizeof(Num_Mul)*log(n);
         v = malloc(s);

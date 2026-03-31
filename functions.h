@@ -185,7 +185,19 @@ int find_element(LLU n, Num_Mul* v, int i);
  */
 LLU phi(Num_Mul *v, int size);
 
-
+/**
+ * @brief Computes Euler's totient function phi(n) without prior factorization.
+ *
+ * Finds the prime factors of n via trial division up to sqrt(n) and applies
+ * the formula: phi(n) = n * prod(1 - 1/p) for each distinct prime factor p.
+ *
+ * @note Time complexity: O(sqrt(n)), which makes it suitable for large inputs
+ *       where the full factorization is not already available.
+ *       If the factorization of n is already known, use phi() instead.
+ *
+ * @param n  The integer whose totient is to be computed (must be > 0).
+ * @return   The value of phi(n).
+ */
 LLU phi_n(LLU n);
 
 /**

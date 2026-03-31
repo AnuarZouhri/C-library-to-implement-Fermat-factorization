@@ -5,22 +5,7 @@
 
 
 
-/**
- * @brief Converts a number to its binary representation.
- *
- * Stores the bits of `n` into the array `v` in LSB-first order
- * (least significant bit at index 0).
- *
- * @param n   The number to convert (unsigned long long).
- * @param v   Output array where bits are stored. Must be pre-allocated
- *            with at least floor(log2(n)) + 1 elements.
- *
- * @note  The array is filled LSB-first, so v[0] is the least significant bit.
- *        Example: n=6 (binary 110) → v = {0, 1, 1}
- *
- * @warning No bounds checking is performed on `v`.
- *          Ensure the array is large enough before calling.
- */
+
 void convert_binary(LLU n, int *v){
 
     int i = 0;
@@ -40,22 +25,7 @@ void convert_binary(LLU n, int *v){
 
 }
 
-/**
- * @brief Computes a^q mod (mod) using Fast Power Algorithm (square-and-multiply).
- *
- * Uses the binary representation of the exponent `q` to compute
- * modular exponentiation efficiently in O(log q) multiplications.
- *
- * @param a    The base.
- * @param q    The exponent.
- * @param mod  The modulus.
- * @return     Result of a^q mod (mod).
- *
- * @note  Internally calls convert_binary() and power2().
- *        Exits the program if memory allocation fails.
- *
- * @example FPA(2, 10, 1000) → 1024 % 1000 = 24
- */
+
 
 LLU FPA(LLU a, LLU q, LLU mod){
 
@@ -94,15 +64,6 @@ LLU FPA(LLU a, LLU q, LLU mod){
     return risultato;
 }
 
-/**
- * @brief Compute the power of a number given the modulo
- *
- *
- * @param a    The base.
- * @param mod  The modulus.
- * @return     Result of a^a mod (mod).
- *
- */
 
 LLU power2(LLU a, LLU mod){
 
@@ -118,17 +79,7 @@ LLU power2(LLU a, LLU mod){
 
 }
 
-/**
- * @brief Compute the gcd of two numbers
- *
- *  O(log a) operations
- * 
- *
- * @param a    The first number (llu).
- * @param b    The second number (llu).
- * @return     gcd(a,b).
- *
- */
+
 LLU gcd(LLU a, LLU b) {
 
     LLU temp;
@@ -141,23 +92,6 @@ LLU gcd(LLU a, LLU b) {
     return a;
 }
 
-/**
- * @brief Performs a single Miller-Rabin primality test with witness `a`.
- *
- * Writes n-1 as 2^k * q with q odd, then checks if `a` is a witness
- * of compositeness for `n`.
- *
- * @param n  The number to test for primality (must be odd and > 3).
- * @param a  The witness candidate (1 < a < n-1).
- * @return   0 if `n` is definitely composite.
- *           1 if `n` is probably prime for this witness.
- *
- * @note  A return value of 1 does NOT guarantee primality.
- *        Call MR_test() with multiple witnesses for higher confidence.
- *
- * @example MR_test_a(221, 174) → 0  (221 = 13 × 17, composite)
- * @example MR_test_a(7, 3)     → 1  (7 is prime)
- */
 int MR_test_a(LLU n, LLU a){
 
     int k = 0;
@@ -191,28 +125,7 @@ int MR_test_a(LLU n, LLU a){
  
 }
 
-/**
- * @brief Performs the Miller-Rabin primality test with `k` random witnesses.
- *
- * Repeatedly calls MR_test_a() with random witnesses to determine
- * whether `n` is prime. The more witnesses used, the lower the
- * probability of a false positive (at most 4^-k per round).
- *
- * @param n  The number to test for primality.
- * @param k  Number of random witnesses to test (recommended: k >= 20).
- * @return   0 if `n` is definitely composite.
- *           1 if `n` is probably prime.
- *
- * @note  Special cases: returns 1 immediately for n=2 and n=3.
- *        The seed is randomized via srand(time(NULL) ^ clock()).
- *
- * @warning rand() % (n-3) may have bias for large `n` since
- *          `n` can exceed RAND_MAX. For cryptographic use,
- *          replace rand() with a CSPRNG.
- *
- * @example MR_test(104729, 20) → 1  (104729 is prime)
- * @example MR_test(104728, 20) → 0  (104728 is composite)
- */
+
 int MR_test(LLU n, int k){
 
     srand(time(NULL) ^ clock());
@@ -252,8 +165,7 @@ void factorize(LLU n, Num_Mul* v, int s, int * i){
             v[p].mult++;
         } 
         else{
-
-            if(*i == s) resize(v, (*i)*0.2, s);
+            if(*i == s) resize(v, (*i)*1.2, s);
             v[*i].prime = n;
             v[*i].mult = 1;
             (*i)++;
@@ -268,15 +180,21 @@ void factorize(LLU n, Num_Mul* v, int s, int * i){
 
 }
 
-LLU phi_n(LLU n){
+LLU phi_n(LLU n) {
+    LLU result = n;
+    LLU temp = n;
 
-    int phi = 0;
-
-    for(int i=1; i<n; i++){
-        if(gcd(i,n)==1) phi++;
+    for (LLU p = 2; p * p <= temp; p++) {
+        if (temp % p == 0) {
+            while (temp % p == 0)
+                temp /= p;
+            result -= result / p;
+        }
     }
+    if (temp > 1)
+        result -= result / temp;
 
-    return phi;
+    return result;
 }
 
 LLU phi(Num_Mul *v, int size){
@@ -368,13 +286,12 @@ int resize(Num_Mul *v, int i, int size) {
     return i;
 }
 
-LLU trial_division(LLU n){
-
-    LLU bound = sqrt(n);
-    for(int i = 3; i < bound; i++){
-
-
-        if(n % i == 0)
+LLU trial_division(LLU n) {
+    if (n % 2 == 0) return 2;
+    LLU bound = (LLU)sqrt((double)n);
+    for (LLU i = 3; i <= bound; i += 2) {
+        if (n % i == 0)
             return i;
     }
+    return n; // n is prime
 }
