@@ -208,20 +208,6 @@ LLU phi(Num_Mul *v, int size){
     return phi;
 }
 
-LLU is_Square(LLU N){
-
-    LLU t = sqrt(N);
-
-    for(int i=0; i<2; i++){
-
-        if((t+i)*(t+i) == N)
-            return t;
-    }
-
-    return 0;
-}
-
-
 
 int find_element(LLU n, Num_Mul *v, int i){
 
@@ -237,32 +223,25 @@ int find_element(LLU n, Num_Mul *v, int i){
 }
 
 LLU fermat_factorization(LLU n){
-    int k = 0;
-    LLU b = 0;
-    LLU a = 0; //default value
-    LLU g = 1;  //default value
-    if((n & 1) == 0) return 2; //check the last bit. If 0, then the number is even.
-    while(1){
-        k++;
-        b = 0;
-        if(k!=2){
-            while(b <= sqrt(k*n)){
-                b++;
-                a = b*b + k*n;
-                //printf("\na = %llu, overflow = %d\n", a, a == ULLONG_MAX);
-                a = is_Square(a);
-                if(a != 0){
-                    g = gcd(n,a+b);
-                    
-                    printf("n= %llu, b= %llu, k= %llu, a= %llu, g= %llu\n",n,b,k,a,g);
-                    if(g != 1 && g != n)
-                        return g;
-                }
+    if (n % 2 == 0) return 2;
 
-            }
-        }
+    // Phase 1: trial division up to a bound
+    LLU bound = 1000000;
+    for (LLU i = 3; i <= bound && i * i <= n; i += 2) {
+        if (n % i == 0)
+            return i;
     }
 
+    // Phase 2: Fermat only if no small factor was found
+    LLU a = (LLU)ceil(sqrt((double)n));
+    LLU b2, b;
+    while (1) {
+        b2 = a * a - n;
+        b = (LLU)sqrt((double)b2);  //check if the numeber is a perfect square
+        if (b * b == b2)
+            return a - b;
+        a++;
+    }
 }
 
 

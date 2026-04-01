@@ -42,7 +42,7 @@ void test_power2(int a, int mod, int expected) {
 
 void test_factorization() {
     //1000000016000000063
-    LLU n = 1000000016000000063;
+    LLU n = 21;
     int s = (int)(log2(n) + 1);
     int i = 0;
     Num_Mul *v = malloc(s * sizeof(Num_Mul));

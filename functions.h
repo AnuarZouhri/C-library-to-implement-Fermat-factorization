@@ -116,16 +116,8 @@ int MR_test(LLU n, int k);
  */
 LLU gcd(LLU a, LLU b);
 
-/**
- * @brief Checks whether N is a perfect square and, if so, returns its integer square root.
- *
- * Computes floor(sqrt(N)) and checks whether floor(sqrt(N)) or floor(sqrt(N))+1
- * squared equals N, to correct for floating-point precision errors.
- *
- * @param N  The number to check.
- * @return   The integer square root of N if N is a perfect square, 0 otherwise.
- */
-LLU is_Square(LLU N);
+
+
 void factorize(LLU n, Num_Mul* v, int s, int * i);
 
 /**
