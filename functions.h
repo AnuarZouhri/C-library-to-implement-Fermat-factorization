@@ -208,11 +208,11 @@ LLU phi_n(LLU n);
  *          Consider passing a Num_Mul** or returning the new pointer instead.
  *
  * @param v     Pointer to the array to resize.
- * @param i     Desired new size (must be > 0).
- * @param size  Current size of the array (unused inside the function).
- * @return      The new size i on success; terminates the program on error.
+ * @param new_size     Desired new size (must be > 0).
+ * @param old_size  Current size of the array (unused inside the function).
+ * @return      The new pointer on success; terminates the program on error.
  */
-int resize(Num_Mul *v, int i, int size);
+Num_Mul* resize(Num_Mul *v, int new_size, int old_size);
 
 
 #endif
