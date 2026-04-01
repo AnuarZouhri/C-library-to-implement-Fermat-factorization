@@ -106,7 +106,26 @@ int MR_test(LLU n, int k);
 LLU gcd(LLU a, LLU b);
 
 
-
+/**
+ * @brief Recursively factorizes n and stores its prime factors with multiplicities.
+ *
+ * Uses a hybrid approach:
+ * - First checks divisibility by a fixed set of small primes (fast path).
+ * - Then uses the Miller-Rabin primality test to check if the remaining factor is prime.
+ * - If composite, finds a non-trivial factor via fermat_factorization() and recurses
+ *   on both factors.
+ *
+ * @note The small primes lookup table is declared static const to avoid
+ *       repeated stack allocation across recursive calls.
+ * @note The Miller-Rabin test is run with 20 witnesses, giving a false positive
+ *       probability of at most 4^(-20) ≈ 10^(-12).
+ * @note The array v must be pre-allocated by the caller with at least s elements.
+ *
+ * @param n  The number to factorize (must be >= 1).
+ * @param v  Array of Num_Mul structures where the factors are stored.
+ * @param s  Current allocated size of v.
+ * @param i  Pointer to the index of the next free slot in v; updated by the function.
+ */
 void factorize(LLU n, Num_Mul* v, int s, int * i);
 
 /**
