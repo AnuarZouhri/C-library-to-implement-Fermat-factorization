@@ -31,17 +31,6 @@ void convert_binary(LLU n, int * v);
 
 
 /**
- * @brief Compute the power of a number given the modulo
- *
- *
- * @param a    The base.
- * @param mod  The modulus.
- * @return     Result of a^a mod (mod).
- *
- */
-LLU power2(LLU a, LLU mod);
-
-/**
  * @brief Computes a^q mod (mod) using Fast Power Algorithm (square-and-multiply).
  *
  * Uses the binary representation of the exponent `q` to compute

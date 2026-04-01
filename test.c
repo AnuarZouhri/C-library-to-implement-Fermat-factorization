@@ -29,16 +29,6 @@ void test_convert_binary(int n) {
     free(binary);
 }
 
-void test_power2(int a, int mod, int expected) {
-    int risultato = 0;
-    risultato = power2(a, mod);
-
-    if (risultato == expected)
-        printf("TEST power2(%d, %d): PASSED ✓\n", a, mod);
-    else
-        printf("TEST power2(%d, %d): FAILED ✗ (atteso %d, ottenuto %d)\n", a, mod, expected, risultato);
-}
-
 
 void test_factorization() {
     //1000000016000000063
@@ -111,10 +101,5 @@ void test_all(){
     test_convert_binary(1);
     test_convert_binary(255);
     printf("\n---test_power2---\n");
-    test_power2(3, 5, 4);   // 3² mod 5 = 9 mod 5 = 4
-    test_power2(4, 7, 2);   // 4² mod 7 = 16 mod 7 = 2
-    test_power2(6, 5, 1);   // 6 > 5, quindi 6%5=1, 1² mod 5 = 1
-    test_power2(1234, 5678, 1052);
-
 }
 

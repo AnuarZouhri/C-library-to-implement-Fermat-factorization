@@ -50,8 +50,9 @@ LLU FPA(LLU a, LLU q, LLU mod){
     }
 
     for(i=1;i<n_bit;i++){
+        
+        new = (old*old) % mod;
 
-        new = power2(old,mod);
         if (binary[i] == 1){
             risultato = (risultato * new) % mod;
         }
@@ -62,21 +63,6 @@ LLU FPA(LLU a, LLU q, LLU mod){
     free(binary);
 
     return risultato;
-}
-
-
-LLU power2(LLU a, LLU mod){
-
-    LLU risultato;
-
-    if (a > mod){
-        a = a % mod;
-    }
-
-    risultato = ( a * a ) % mod;
-
-    return risultato;
-
 }
 
 
@@ -116,7 +102,7 @@ int MR_test_a(LLU n, LLU a){
 
         if (a % n == (n-1))
             return 1;
-        a = power2(a,n);
+        a = (a*a) % n;
         
         //printf("a_(%d) = %llu\n",i,a%n);
     }
@@ -223,6 +209,7 @@ int find_element(LLU n, Num_Mul *v, int i){
 }
 
 LLU fermat_factorization(LLU n){
+
     if (n % 2 == 0) return 2;
 
     // Phase 1: trial division up to a bound
@@ -270,7 +257,7 @@ LLU trial_division(LLU n) {
     LLU bound = (LLU)sqrt((double)n);
     for (LLU i = 3; i <= bound; i += 2) {
         if (n % i == 0)
-            return i;
+            return i; //return the first found factor
     }
     return n; // n is prime
 }
