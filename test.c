@@ -32,7 +32,9 @@ void test_convert_binary(int n) {
 
 void test_factorization() {
     //1000000016000000063
-    LLU n = 21;
+    //111112222267835434
+    //1111122222674
+    LLU n = 1000000016000000063;
     int s = (int)(log2(n) + 1);
     int i = 0;
     Num_Mul *v = malloc(s * sizeof(Num_Mul));
@@ -43,7 +45,7 @@ void test_factorization() {
 
     // --- factorize + phi ---
     start = clock();
-    factorize(n, v, s, &i);
+    factorize(n, v, &s, &i);
     LLU result_phi = phi(v, i);
     end = clock();
     elapsed = (double)(end - start) / CLOCKS_PER_SEC;

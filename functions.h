@@ -205,7 +205,7 @@ LLU phi_n(LLU n);
  * @param old_size     Current size of the array (unused inside the function).
  * @return             The new pointer on success; terminates the program on error.
  */
-void resize(Num_Mul *v, int new_size);
+void resize(Num_Mul **v, int new_size);
 
 
 #endif

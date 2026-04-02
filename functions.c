@@ -118,11 +118,12 @@ int MR_test(LLU n, int k){
 
     for(int i=0; i<k; i++){
    
-        LLU witness = 2 + ((LLU)rand() << 32 | (LLU)rand()) % (n - 3); //create a random 64 bit number
-        //printf("witness = %llu\n", witness);
+        LLU witness = (2 + ((LLU)rand() << 32 | (LLU)rand()) % (n - 3)) % 1000; //create a random 64 bit number
+
         test = MR_test_a(n, witness);
+        printf("n = %llu, witness = %llu, test = %d\n", n, witness, test);
         if (test == 0){
-            //printf("MR, witness = %llu\n", witness);
+            //printf("n = %llu, witness = %llu\n", n, witness);
             return 0;
         }
 
@@ -156,7 +157,7 @@ void factorize(LLU n, Num_Mul* v, int* s, int* i){
  
     if(n == 1) return;
 
-    int mr_test = MR_test(n,20);
+    int mr_test = MR_test(n,15);
      
     if(mr_test == 1){
         
@@ -209,7 +210,10 @@ LLU phi(Num_Mul *v, int size){
     LLU phi = 1;
 
     for(int i = 0; i<size; i++){
-        phi = phi * (v[i].prime - 1)*pow(v[i].prime,v[i].mult-1);
+        if(v[i].mult > 1)
+            phi = phi * pow(v[i].prime,v[i].mult-1);
+        phi = phi * (v[i].prime - 1);
+
     }
 
     return phi;
@@ -234,7 +238,7 @@ LLU fermat_factorization(LLU n){
     if (n % 2 == 0) return 2;
 
     // Phase 1: trial division up to a bound
-    LLU bound = 1000000;
+    LLU bound = sqrt(n);
     for (LLU i = 3; i <= bound && i * i <= n; i += 2) {
         if (n % i == 0)
             return i;
