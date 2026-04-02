@@ -4,8 +4,6 @@
 #include <time.h>
 
 
-
-
 void convert_binary(LLU n, int *v){
 
     int i = 0;
@@ -24,8 +22,6 @@ void convert_binary(LLU n, int *v){
     return;
 
 }
-
-
 
 LLU FPA(LLU a, LLU q, LLU mod){
 
@@ -136,8 +132,26 @@ int MR_test(LLU n, int k){
 
 }
 
+void resize(Num_Mul **v, int new_size) {
 
-void factorize(LLU n, Num_Mul* v, int s, int * i){
+    if (new_size == 0) {
+        printf("Error! Size cannot be zero.\n");
+        exit(1);
+    }
+
+    Num_Mul *temp = realloc(*v, new_size * sizeof(Num_Mul));
+
+    if (temp == NULL) {
+        printf("Error! Realloc failed.\n");
+        free(*v);
+        exit(1);
+    }
+
+    *v = temp;  
+}
+
+void factorize(LLU n, Num_Mul* v, int* s, int* i){
+    
     int p;
  
     if(n == 1) return;
@@ -151,7 +165,14 @@ void factorize(LLU n, Num_Mul* v, int s, int * i){
             v[p].mult++;
         } 
         else{
-            if(*i == s) resize(v, (*i)*1.2, s);
+
+            if(*i == *s) { //realloc if the vector is too small.
+                
+                int new_size = *i + *i / 2 + 1;  
+                resize(&v, new_size);
+                *s = new_size;
+            }
+
             v[*i].prime = n;
             v[*i].mult = 1;
             (*i)++;
@@ -231,26 +252,6 @@ LLU fermat_factorization(LLU n){
     }
 }
 
-
-int resize(Num_Mul *v, int i, int size) {
-
-    if (i == 0) {
-        printf("Error! Size cannot be zero.\n");
-        exit(1);
-    }
-
-    Num_Mul *temp = realloc(v, i * sizeof(Num_Mul));
-
-    if (temp == NULL) {
-        printf("Error! Realloc failed.\n");
-        free(v);
-        exit(1);
-    }
-
-    v = temp;
-
-    return i;
-}
 
 LLU trial_division(LLU n) {
     if (n % 2 == 0) return 2;

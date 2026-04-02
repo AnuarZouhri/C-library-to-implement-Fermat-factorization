@@ -126,7 +126,7 @@ LLU gcd(LLU a, LLU b);
  * @param s  Current allocated size of v.
  * @param i  Pointer to the index of the next free slot in v; updated by the function.
  */
-void factorize(LLU n, Num_Mul* v, int s, int * i);
+void factorize(LLU n, Num_Mul* v, int * s, int * i);
 
 /**
  * @brief Factors n using a variant of Fermat's factorization method (k-Fermat / SQUFOF).
@@ -148,12 +148,7 @@ LLU fermat_factorization(LLU n);
 /**
  * @brief Finds a factor of n using trial division.
  *
- * Tests all odd divisors from 3 up to floor(sqrt(n)).
- *
- * @warning If n has no factors in the range [3, sqrt(n)], the function
- *          returns without an explicit value (undefined behavior).
- * @warning The loop starts at 3 but does not skip even numbers; incrementing
- *          i by 2 would improve efficiency.
+ * Tests all odd divisors from 2 up to floor(sqrt(n)). It skips all the multiplie of 2.
  *
  * @param n  The number to factor.
  * @return   The first factor of n found in the explored range, if any.
@@ -161,12 +156,12 @@ LLU fermat_factorization(LLU n);
 LLU trial_division(LLU n);
 
 /**
- * @brief Searches for a prime number in the array of already-found factors.
+ * @brief Searches for a number in the array.
  *
  * Scans the array v up to index i (inclusive) and returns the position
  * of the first element whose prime field equals n.
  *
- * @param n  The prime number to search for.
+ * @param n  The number to search for.
  * @param v  Array of Num_Mul structures to search in.
  * @param i  Index of the last valid element in the array.
  * @return   The index of the matching element, or -1 if not found.
@@ -203,16 +198,14 @@ LLU phi_n(LLU n);
 /**
  * @brief Dynamically resizes an array of Num_Mul using realloc.
  *
- * @warning The pointer v is updated locally but the change does not propagate
- *          to the caller (the parameter is passed by value).
- *          Consider passing a Num_Mul** or returning the new pointer instead.
- *
- * @param v     Pointer to the array to resize.
+ * @note You can use this to reduce the dimension eof the final vector obtained from factorize()
+ * 
+ * @param v            Pointer to the array to resize.
  * @param new_size     Desired new size (must be > 0).
- * @param old_size  Current size of the array (unused inside the function).
- * @return      The new pointer on success; terminates the program on error.
+ * @param old_size     Current size of the array (unused inside the function).
+ * @return             The new pointer on success; terminates the program on error.
  */
-Num_Mul* resize(Num_Mul *v, int new_size, int old_size);
+void resize(Num_Mul *v, int new_size);
 
 
 #endif
