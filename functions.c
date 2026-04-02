@@ -154,30 +154,32 @@ void resize(Num_Mul **v, int new_size) {
 void factorize(LLU n, Num_Mul* v, int* s, int* i){
     
     int p;
+    int mr_test;
  
     if(n == 1) return;
+ 
+    p = find_element(n,v,*i); 
 
-    int mr_test = MR_test(n,15);
+    if(p != -1){  //if you found it then n is prime.
+        v[p].mult++;
+        return;   
+    }   
+
+    mr_test = MR_test(n,log(n));
      
     if(mr_test == 1){
         
-        p = find_element(n,v,*i);
-        if(p != -1){
-            v[p].mult++;
-        } 
-        else{
-
-            if(*i == *s) { //realloc if the vector is too small.
-                
-                int new_size = *i + *i / 2 + 1;  
-                resize(&v, new_size);
-                *s = new_size;
-            }
-
-            v[*i].prime = n;
-            v[*i].mult = 1;
-            (*i)++;
+        if(*i == *s) { //realloc if the vector is too small.
+            
+            int new_size = *i + *i / 2 + 1;  
+            resize(&v, new_size);
+            *s = new_size;
         }
+
+        v[*i].prime = n;
+        v[*i].mult = 1;
+        (*i)++;
+    
         return;
     }
 
@@ -238,7 +240,7 @@ LLU fermat_factorization(LLU n){
     if (n % 2 == 0) return 2;
 
     // Phase 1: trial division up to a bound
-    LLU bound = sqrt(n);
+    LLU bound = 1000;
     for (LLU i = 3; i <= bound && i * i <= n; i += 2) {
         if (n % i == 0)
             return i;

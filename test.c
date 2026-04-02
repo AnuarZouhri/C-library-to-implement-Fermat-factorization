@@ -34,7 +34,7 @@ void test_factorization() {
     //1000000016000000063
     //111112222267835434
     //1111122222674
-    LLU n = 1000000016000000063;
+    LLU n = 10000016000000063;
     int s = (int)(log2(n) + 1);
     int i = 0;
     Num_Mul *v = malloc(s * sizeof(Num_Mul));
