@@ -19,20 +19,22 @@ This library provides tools to factorize 64-bit unsigned integers using a combin
 
 ---
 
-## Compilation
+## Installation
 
-The library uses `math.h`, so make sure to link with `-lm`.
-
+Clone the repository:
 ```bash
-gcc -o main *.c -lm
+git clone https://github.com/AnuarZouhri/Totient-Function-in-C.git
 ```
 
-Or with debug symbols:
+The repository contains only the library files:
 
+- `functions.h` — declarations and documentation
+- `functions.c` — implementation
+
+Compile them together with your project:
 ```bash
-gcc -g -o main *.c -lm
+gcc -o your_program your_program.c functions.c -lm
 ```
-
 ---
 
 ## Function Reference
