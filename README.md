@@ -41,12 +41,12 @@ gcc -o your_program your_program.c functions.c -lm
 
 ### Factorization
 
-#### `void factorize(LLU n, Num_Mul *v, int s, int *i)`
+#### `void factorize(LLU n, Num_Mul* v, int* s, int* i)`
 Recursively factorizes `n` and stores its prime factors with their multiplicities in `v`.
 Uses Miller-Rabin to check primality, and Fermat's method to split composite factors.
 - `n` — number to factorize (must be ≥ 1)
 - `v` — pre-allocated array of `Num_Mul` structures
-- `s` — allocated size of `v`
+- `s` — pointer to the allocated size of `v`
 - `i` — pointer to the next free index in `v`, updated by the function
 
 #### `LLU fermat_factorization(LLU n)`
