@@ -4,3 +4,8 @@
 # Object files
 *.o
 *.obj
+
+# Test and main files
+test.c
+test.h
+main.c
