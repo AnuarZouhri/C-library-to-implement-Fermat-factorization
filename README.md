@@ -149,6 +149,5 @@ Fermat factorization is efficient only when the two factors of `n` are close to 
 |---|---|
 | Small factor | Trial division |
 | p ≈ q (both large) | Fermat's method |
-| p, q large and arbitrary | Pollard's rho (not yet implemented) |
 
 
