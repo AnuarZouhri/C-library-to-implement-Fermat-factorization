@@ -137,9 +137,6 @@ typedef struct {
 
 - **Overflow:** all arithmetic is done on 64-bit unsigned integers (`unsigned long long`). Products of two large primes close to `2^32` may overflow intermediate calculations.
 - **`fermat_factorization` convergence:** the function may loop for a very long time on numbers of the form `n = p · q` where `p` is small and `q` is large (e.g. `n = 7 · 1428185749`), since Fermat's method is slow when factors are far apart.
-- **`resize` propagation:** the realloc'd pointer is now correctly returned, but `factorize` does not update `s` after resizing, so the resize condition `*i == s` may trigger incorrectly on subsequent calls.
-- **`trial_division` even numbers:** the loop starts at 3 and does not handle even factors other than 2. Always call it after checking divisibility by 2.
-- **`MR_test` randomness:** uses `rand()` seeded with `time(NULL) ^ clock()`. Not suitable for cryptographic use.
 
 ---
 
