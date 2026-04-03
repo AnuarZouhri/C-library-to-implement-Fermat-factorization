@@ -23,7 +23,7 @@ This library provides tools to factorize 64-bit unsigned integers using a combin
 
 Clone the repository:
 ```bash
-git clone https://github.com/AnuarZouhri/Totient-Function-in-C.git
+git clone https://github.com/AnuarZouhri/C-library-to-implement-Fermat-factorization.git
 ```
 
 The repository contains only the library files:
