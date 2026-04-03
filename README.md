@@ -115,7 +115,7 @@ Searches for prime `n` in the factor array `v` up to index `i`.
 #### `void convert_binary(LLU n, int *v)`
 Converts `n` to its binary representation stored in array `v` (LSB first).
 
-#### `Num_Mul* resize(Num_Mul *v, int new_size, int old_size)`
+#### `Num_Mul* resize(Num_Mul *v, int new_size)`
 Resizes the factor array `v` via `realloc`. Returns the new pointer.
 
 ---
